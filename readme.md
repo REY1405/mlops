@@ -153,5 +153,119 @@ In a production MLOps setup:
 - DVC stores data and model metadata
 - S3, Azure Blob, or GCS stores the actual datasets and model artifacts
 
+################################################################################################################################
+
+# Experiment Tracking
+
+Experiment Tracking is the process of recording and managing machine learning experiments to ensure reproducibility, collaboration, and model comparison.
+
+Data scientists often run multiple experiments while tuning hyperparameters, testing different datasets, or trying various model architectures. Experiment tracking helps maintain a complete history of these experiments.
+
+## What Should Be Tracked?
+
+### Parameters (Hyperparameters)
+
+Track all model training parameters, such as:
+
+* Learning rate
+* Batch size
+* Number of epochs
+* Optimizer type
+* Regularization parameters
+* Feature selection settings
+
+### Code Version
+
+Track the exact code version used for training:
+
+* Git commit hash
+* Branch name
+* Repository version
+
+This ensures experiments can be reproduced using the same source code.
+
+### Dataset Version
+
+Track the dataset used for each experiment:
+
+* Dataset version
+* Data source
+* Data preprocessing steps
+* DVC version reference
+
+This guarantees that the model can be retrained on the exact same data.
+
+### Metrics
+
+Record model performance metrics, such as:
+
+* Accuracy
+* Precision
+* Recall
+* F1 Score
+* ROC-AUC
+* Mean Squared Error (MSE)
+* Root Mean Squared Error (RMSE)
+
+Metrics help compare different experiments and select the best-performing model.
+
+### Artifacts
+
+Store all generated artifacts:
+
+* Trained model files (.pkl, .joblib, .onnx)
+* Feature engineering outputs
+* Confusion matrices
+* Training logs
+* Validation reports
+* Visualization plots
+
+### System Information
+
+Capture environment details to ensure reproducibility:
+
+* Operating System
+* Python version
+* Library versions
+* CPU configuration
+* GPU configuration
+* Memory information
+* Docker image version
+
+## Benefits of Experiment Tracking
+
+* Reproducible machine learning experiments
+* Easy comparison between model versions
+* Faster debugging and troubleshooting
+* Better collaboration among teams
+* Improved model governance and auditability
+* Simplified model deployment decisions
+
+## Popular Experiment Tracking Tools
+
+* MLflow
+* Weights & Biases (W&B)
+* Neptune.ai
+* Comet ML
+* TensorBoard
+
+## Typical Workflow
+
+1. Start a new experiment.
+2. Log parameters and dataset version.
+3. Train the model.
+4. Record metrics during training.
+5. Save model artifacts.
+6. Track system information and code version.
+7. Compare experiments.
+8. Register and deploy the best-performing model.
+
+Experiment tracking is a core component of MLOps and enables teams to build reproducible, scalable, and production-ready machine learning systems.
+
+################################################################################################################################
+
+
+
+
 
 
