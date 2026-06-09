@@ -264,8 +264,121 @@ Experiment tracking is a core component of MLOps and enables teams to build repr
 
 ################################################################################################################################
 
+# MLFLOW
+
+MLflow is an open-source MLOps platform used to manage the complete machine learning lifecycle, including:
+
+Experiment Tracking
+Model Versioning
+Model Registry
+Model Deployment
+Reproducibility of ML experiments
+
+It helps data scientists and ML engineers track, compare, and deploy machine learning models efficiently.
+
+### Installation
+
+pip install mlflow
+mlflow ui --backend-store-uri sqlite:///mlflow.db --port 7000
+
+#### k8s installation
+
+helm repo add community-charts https://community-charts.github.io/helm-charts
+helm repo update
+helm install mlflow-community communit-charts/mlflow 
+kubectl port-forward po/mlflow-community-7549fbf58-x7vjr 7000:5000 --address 0.0.0.0
+
+for now we are running this mlflows as stateless and in production we statefull 
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm install postgres bitnami/postgresql
+kubectl get secret --namespace default postgres-postgresql -o jsonpath="{.data.postgres-password}" | base64 -d 
+VNKK9cBZP1mX0s0upqpAcomy
+kubectl exec -it postgres-postgresql-0 -- bash
+psql -U postgres
+\l --> to check db
+CREATE DATABASE mlflow;
+CREATE USER mlflow_user WITH PASSWORD 'test123';
+GRANT ALL PRIVILEGES ON DATABASE mlflow TO mlflow_user;
+GRANT ALL PRIVILEGES ON SCHEMA public TO mlflow_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO mlflow_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO mlflow_user;
+ALTER SCHEMA public OWNER TO mlflow_user;
+GRANT CREATE ON SCHEMA public TO mlflow_user;
+
+helm install minio bitnami/minio
+
+mlflow server \
+--backend-store-uri postgresql://user:password@postgres:5432/mlflow \
+--default-artifact-root s3://mlflow-artifacts \
+--host 0.0.0.0
 
 
+helm install mlflow-community community-charts/mlflow \
+--set backendStore.databaseMigration=true \
+--set backendStore.postgres.enabled=true \
+--set backendStore.postgres.host=postgres-postgresql.default.svc.cluster.local \
+--set backendStore.postgres.port=5432 \
+--set backendStore.postgres.database=mlflow \
+--set backendStore.postgres.user=mlflow_user \
+--set backendStore.postgres.password=test123
 
+kubectl port-forward po/mlflow-community-7549fbf58-x7vjr 7006:5000 --address 0.0.0.0
+
+#######################################################################################################
+
+# Popular ways to deploy and serve models
+
+1. REST API Serving
+Deploy models behind REST APIs.
+Common tools:
+FastAPI
+Flask
+Django
+Best for custom inference logic.
+
+2. Kubernetes-Native Serving
+Scalable and production-ready deployments on Kubernetes.
+Common tools:
+KServe
+Seldon Core
+Knative
+Supports autoscaling, canary deployments, and A/B testing.
+
+3. MLflow Model Serving
+Deploy models directly from the MLflow registry.
+Tool:
+MLflow
+Useful for quick deployments and model management.
+
+4. Cloud Managed Services
+Fully managed inference endpoints.
+Examples:
+Amazon SageMaker
+Google Vertex AI
+Azure Machine Learning
+
+5. High-Performance Model Servers
+Optimized for low latency and high throughput.
+Examples:
+NVIDIA Triton Inference Server
+TensorFlow Serving
+TorchServe
+
+6. Batch Inference
+Run predictions on large datasets periodically.
+Commonly implemented using:
+Kubernetes Jobs
+Apache Spark
+Airflow DAGs
+AWS Batch
+
+7. Serverless Inference
+Pay only when requests arrive.
+Examples:
+AWS Lambda
+Knative Serving
+Cloud Functions
 
 
