@@ -1,0 +1,13 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: tinyllama
+  namespace: ml
+
+spec:
+  predictor:
+    model:
+      runtime: llama-cpp-runtime
+
+      modelFormat:
+        name: gguf

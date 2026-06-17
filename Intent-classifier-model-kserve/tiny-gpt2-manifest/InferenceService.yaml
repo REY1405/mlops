@@ -1,0 +1,18 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: tiny-gpt2
+  namespace: ml
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: huggingface
+      storageUri: pvc://tiny-gpt2-pvc/tiny-gpt2
+      resources:
+        requests:
+          cpu: "1"
+          memory: "2Gi"
+        limits:
+          cpu: "2"
+          memory: "4Gi"

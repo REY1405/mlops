@@ -381,4 +381,262 @@ AWS Lambda
 Knative Serving
 Cloud Functions
 
+############################################################################################################
+
+### We can use wsgi for our app.py with below cmd
+
+gunicorn --workers 3 --bind 127.0.0.1:6000 wsgi:app
+
+#############################################################################################################
+
+## KServe Model Serving
+
+### Overview
+
+This project demonstrates how to deploy and serve Machine Learning models on Kubernetes using KServe. KServe is a Kubernetes-native model serving platform that provides serverless inference, automatic scaling, canary deployments, and support for multiple ML frameworks.
+
+### Features
+
+* Kubernetes-native model serving
+* Automatic scaling (including scale-to-zero)
+* Support for TensorFlow, PyTorch, Scikit-learn, XGBoost, and ONNX models
+* REST-based inference APIs
+* Canary deployments and traffic splitting
+* Integration with Kubernetes observability tools
+
+### Prerequisites
+
+* Kubernetes Cluster
+* kubectl
+* KServe installed
+* Knative Serving
+* Container Registry (optional)
+* Object Storage (S3, MinIO, GCS, etc.)
+
+### Deployment
+
+Apply the InferenceService manifest:
+
+```bash
+kubectl apply -f inference-service.yaml
+```
+
+Verify deployment:
+
+```bash
+kubectl get inferenceservice
+```
+
+### Sample Inference Request
+
+```bash
+curl -X POST http://<MODEL_ENDPOINT>/v1/models/model:predict \
+-H "Content-Type: application/json" \
+-d '{"instances":[[1,2,3,4]]}'
+```
+
+### Project Structure
+
+```text
+.
+├── manifests/
+│   └── inference-service.yaml
+├── models/
+├── scripts/
+└── README.md
+```
+
+### Monitoring
+
+Monitor model serving metrics using Prometheus, Grafana, or SigNoz.
+
+### References
+
+* KServe Documentation
+* Kubernetes Documentation
+* Knative Documentation
+
+### License
+
+This project is licensed under the MIT License.
+
+##################################################################################################
+
+# Amazon SageMaker AI
+
+## Overview
+
+Amazon SageMaker AI is a fully managed Machine Learning (ML) service provided by AWS that enables developers and data scientists to build, train, deploy, and monitor machine learning models at scale. It simplifies the end-to-end ML lifecycle by providing integrated tools for data preparation, model training, deployment, inference, and monitoring.
+
+## Key Features
+
+* Fully managed machine learning platform
+* Built-in algorithms and pre-trained models
+* Distributed training support
+* Real-time and batch inference
+* Automated model tuning (Hyperparameter Optimization)
+* MLOps capabilities with CI/CD integration
+* Model monitoring and drift detection
+* Seamless integration with AWS services such as S3, IAM, CloudWatch, and ECR
+
+## Architecture
+
+```text
+Data Sources
+      │
+      ▼
+ Amazon S3
+      │
+      ▼
+ SageMaker Training Jobs
+      │
+      ▼
+ Trained Model Artifacts
+      │
+      ▼
+ SageMaker Endpoint
+      │
+      ▼
+ Prediction Requests
+```
+
+## Components
+
+### SageMaker Studio
+
+A web-based integrated development environment (IDE) for machine learning development, experimentation, and deployment.
+
+### Training Jobs
+
+Train machine learning models using managed infrastructure with support for CPU and GPU workloads.
+
+### Model Registry
+
+Centralized repository for managing, versioning, and approving machine learning models.
+
+### Endpoints
+
+Deploy models for real-time inference with automatic scaling and high availability.
+
+### Batch Transform
+
+Run large-scale offline inference on datasets stored in Amazon S3.
+
+### Model Monitor
+
+Continuously monitor deployed models for data quality issues and prediction drift.
+
+## Benefits
+
+* Accelerates machine learning development
+* Reduces infrastructure management overhead
+* Supports enterprise-grade security and compliance
+* Enables scalable model deployment and monitoring
+* Integrates seamlessly with AWS cloud services
+
+## Use Cases
+
+* Natural Language Processing (NLP)
+* Recommendation Systems
+* Fraud Detection
+* Computer Vision
+* Predictive Analytics
+* Customer Churn Prediction
+
+## References
+
+* AWS SageMaker Documentation
+* AWS Machine Learning Services Documentation
+
+## License
+
+This project is licensed under the MIT License.
+
+######################################################################################################
+
+# Kubeflow
+
+## Overview
+
+Kubeflow is an open-source Machine Learning (ML) platform built on Kubernetes that simplifies the deployment, orchestration, and management of machine learning workflows. It provides a comprehensive set of tools for developing, training, tuning, serving, and monitoring machine learning models in a cloud-native environment.
+
+Kubeflow enables data scientists and ML engineers to leverage Kubernetes for scalable and reproducible machine learning operations (MLOps).
+
+## Key Features
+
+* **Kubeflow Pipelines** - Build and automate end-to-end ML workflows.
+* **Jupyter Notebooks** - Run and manage notebook environments directly on Kubernetes.
+* **Katib** - Automated hyperparameter tuning and experiment management.
+* **Training Operators** - Distributed training support for TensorFlow, PyTorch, XGBoost, MPI, and more.
+* **KServe Integration** - Deploy and serve machine learning and generative AI models at scale.
+* **Model Monitoring** - Observe model performance and lifecycle in production.
+* **Multi-user Support** - Secure and isolated environments for teams.
+
+## Kubeflow Architecture
+
+```text
+Data Ingestion
+      ↓
+Data Processing
+      ↓
+Model Training
+      ↓
+Hyperparameter Tuning
+      ↓
+Model Registry
+      ↓
+KServe Model Serving
+      ↓
+Inference
+```
+
+## Core Components
+
+| Component          | Purpose                                 |
+| ------------------ | --------------------------------------- |
+| Kubeflow Pipelines | Workflow orchestration for ML pipelines |
+| Jupyter Notebooks  | Interactive development environment     |
+| Katib              | Hyperparameter tuning                   |
+| Training Operators | Distributed model training              |
+| KServe             | Model serving and inference             |
+| Central Dashboard  | Unified user interface                  |
+
+## Kubeflow and KServe
+
+KServe is a core model serving component commonly used within the Kubeflow ecosystem. While Kubeflow manages the complete machine learning lifecycle, KServe focuses specifically on deploying and serving machine learning models on Kubernetes.
+
+```text
+Kubeflow
+ ├── Notebooks
+ ├── Pipelines
+ ├── Katib
+ ├── Training Operators
+ └── KServe
+        ↓
+     Model Serving
+```
+
+## Benefits
+
+* Kubernetes-native ML platform
+* Scalable and reproducible ML workflows
+* Simplified model deployment and serving
+* Automated training and tuning
+* Support for MLOps best practices
+* Integration with cloud-native tooling
+
+## Use Cases
+
+* End-to-end MLOps platforms
+* Model training and experimentation
+* Hyperparameter optimization
+* Batch and real-time inference
+* Generative AI and LLM deployment
+* Enterprise machine learning workflows
+
+
+
+
+
+
 
