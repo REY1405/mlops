@@ -163,7 +163,7 @@ kubectl port-forward -n churn-model service/churn-predictor-predictor-default 80
 # Test prediction with curl
 # Note: sklearn models expect data as arrays, not named features
 # Order: age, tenure_months, monthly_charges, total_charges, num_support_calls
-curl -X POST http://localhost:8080/v1/models/churn-predictor:predict \
+curl -X POST http://localhost:7000/v1/models/churn-predictor:predict \
   -H "Content-Type: application/json" \
   -d '{
     "instances": [
